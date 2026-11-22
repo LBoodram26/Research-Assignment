@@ -1,0 +1,217 @@
+---
+title: "Can Algorithms Understand Personal Style?"
+author: "Lakeranie Boodram"
+date: "2026-11-16"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    number-sections: true
+    theme: cosmo
+    code-fold: true
+    link-external-newwindow: true
+execute:
+  echo: true
+---
+
+# Introduction
+
+Purchasing clothing online may be quite annoying. A t-shirt can look fantastic in a photo shoot but, in reality, fit differently. Also, spending a lot of time is often needed when doing shopping for clothes. The spelling is justified because I selected the service called Stitch Fix, as it solves these issues incorrectly; instead of asking customers to look for thousands of clothes available online, Stitch Fix allows its clients to retrieve their personal preferences as well as recommendations provided by professional stylists.
+
+In the next few paragraphs of the report, I will use the Scenario Design framework to examine the online clothing retailer Stitch Fix from two perspectives: the company and the customer. In addition, I will find out what is publicly known about its recommendation system; after that, I will try to guess how it works. Finally, I will suggest several ideas for its improvement.
+
+# Overview of Stitch Fix
+
+Stitch Fix is a personalized styling service that operates from the internet. Customers fill out a Style Profile with details like size, preferences, and finances to receive their personalized delivery called a *Fix*. This selection of clothes is chosen based on the algorithms as well as a human stylist. Apart from this, Stitch Fix also introduced the *Freestyle* system, where shoppers can directly shop for the suggested items as well.
+
+In relation to this research, it is important to mention two more features. *Style Shuffle* feature allows customers to rate the items with a thumbs-up or a thumbs-down and share their opinions about the product. On the other hand, *Fix Preview* enables eligible customers to see what has been suggested to them in advance regarding the clothes.
+
+# Scenario Design: Customer Perspective
+
+In the Scenario Design approach three questions are being posed: Who are the target users? What do they want to achieve? In what way will the system enable users to achieve those objectives? Bear in mind these questions from a customer perspective and concentrate on user preferences as opposed to technical possibilities of the software.
+
+##  Who are the target users?
+
+Target users are people who need assistance in finding the clothes that correspond to their unique style. These include busy individuals, shoppers who dislike shopping, and users who unable to create an outfit. Some users might need clothes for routine purposes, while others are looking for garments for work, vacation, or sitting-out in style.
+
+##  What are their key goals?
+
+The goal of the customers is to acquire clothes that fit, look wonderful, and feel comfortable without spending hours looking for something suitable either on the web or in shops; stay within their budgets, and avoid buying garments that they will never wear. Another important objective is to be sure that the suggestions correspond to the real interests of the customers rather than just present trending items.
+
+##  How can Stitch Fix help them accomplish those goals?
+
+Stitch Fix can narrow down customers’ clothing choices using the Style Profile and customer feedback. Style Shuffle provides patrons with a quick method of revealing their likes and dislikes, and Fix Preview allows them to make necessary selections before their order is complete. A stylist can utilize customers’ feedback to make the choices of the customers more individualized. Combined, all these features contribute to the easier and more relevant shopping experience [1, 3, 4].
+
+# Scenario Design: Company Perspective
+
+I think it is justified to redo the Scenario Design since there is a connection between the company and its customers’ objectives but they differ since the customer’s aim is a better shopping experience while the company has to run its business and to have this experience delivered.
+
+##  Who are the target users?
+
+From the company's perspective, the recommendation system supports several groups: customers receiving clothing suggestions, stylists deciding which items to select, and employees responsible for inventory and merchandising. A strong system has to help these groups work together rather than focus only on the customer-facing website.
+
+##  What are their key goals?
+
+Stitch Fix wants to recommend items that customers will actually want to keep, encourage repeat purchases, and build long-term customer relationships. It also needs to match recommendations with the clothing available in inventory. Stylists need relevant options and clear customer feedback so they can make decisions efficiently.
+
+##  How can the system help them accomplish those goals?
+
+Recommendation models can narrow down available clothing and rank items according to how well they may match each customer. The company's published Algorithms Tour describes filters for items a customer has already received or asked to avoid, ranking methods, and tools that help stylists make final selections. The company also describes using algorithms for warehouse assignments and other inventory-related decisions [5]. These tools can help Stitch Fix balance personalization with practical business needs.
+
+## Scenario Design Comparison
+
+The table below summarizes how the same recommendation system can serve different goals for customers and the company.
+
+| Scenario question | Customer perspective | Stitch Fix perspective |
+|:--|:--|:--|
+| **Who are the target users?** | Shoppers looking for clothes that match their size, style, and budget | Customers, professional stylists, and inventory or merchandising teams |
+| **What are their goals?** | Spend less time shopping, find a good fit, and stay within budget | Make useful recommendations, build customer loyalty, and manage available inventory |
+| **How does the system help?** | Personalizes clothing choices using profile details and feedback | Ranks suitable items and gives stylists information to support their decisions |
+
+These goals overlap, but they are not exactly the same. For example, recommending an item that a customer likes is helpful only if it also fits their budget and is available to purchase.
+
+# Reverse Engineering the Recommendation System
+
+I cannot see Stitch Fix's full current source code, exact model weights, or private customer data. However, its interface, help pages, and technical articles provide useful clues about how its recommendation system operates. The following analysis separates documented information from my own interpretations.
+
+## What Stitch Fix publicly describes
+
+**Customer profiles:** New customers provide information about fit, style, and budget in their Style Profile. Customers can update these preferences as their needs change [1, 6].
+
+**Explicit feedback:** In Style Shuffle, customers indicate whether they like or dislike items. Stitch Fix says these responses train its personalization algorithms. In a published explanation of its *Latent Style* approach, the company describes using customer-item ratings to represent style preferences and refine recommendations [3, 7].
+
+**Filtering and ranking:** The Stitch Fix Algorithms Tour explains that its systems can remove clothing that a customer has already received or asked to avoid. It also describes scoring remaining items based on their likelihood of appealing to a particular customer. Techniques discussed include similarity between clothing images and natural language processing of customer notes and item feedback [5].
+
+**Human involvement:** Rather than relying only on automated rankings, Stitch Fix also uses human stylists. Its technical materials describe ranked inventory options being presented to stylists, who then choose clothing and can account for details that may not be fully reflected in the data [5].
+
+**Personalized browsing and previewing:** Freestyle includes sections such as *Trending for You*, *Complete Your Looks*, and *Buy It Again*. Fix Preview allows customers to accept or decline suggestions and provide item-level feedback [2, 4].
+
+**Newer AI features:** Stitch Fix introduced *Vision*, a generative-AI style visualization experience, in October 2025. In June 2026, it announced an expansion allowing customers to generate personalized images of themselves in recommended outfits. This is especially interesting because it adds a way to visualize suggested clothing rather than only reading product descriptions [8, 9].
+
+## My interpretation of the recommendation process
+
+Based on those public descriptions, I believe the system probably works through a series of connected steps:
+
+1. Collect information from the Style Profile, Style Shuffle, previous orders, and feedback.
+2. Identify clothing items that are available and fit important restrictions, such as size and stated dislikes.
+3. Score or rank remaining items based on how closely they match a customer's preferences.
+4. Show recommendations through Freestyle or Fix Preview, or provide ranked options to a stylist for a Fix.
+5. Use new feedback, including likes, declines, and purchasing decisions, to help personalize later recommendations.
+
+This is a **conceptual reconstruction**, not a claim that Stitch Fix uses exactly these five steps in this order today. The company's older technical explanations describe parts of this process, but the full current production system is not public.
+
+## Strengths and limitations
+
+One strength is that Stitch Fix can learn from both information customers provide directly and information they provide while interacting with clothes. Another strength is that a stylist can contribute context that is hard to represent with numbers, such as the kind of outfit that might work for a particular occasion.
+
+There are also challenges. A customer might like a dress in a picture but dislike the fabric or fit after trying it on. People can also change their preferences depending on the season, their job, or an upcoming event. A thumbs-down might mean an item is the wrong color, too expensive, or simply not needed right now. If the system treats all negative ratings in the same way, it may misunderstand the customer's actual preferences. This is a possible design limitation, not a confirmed description of Stitch Fix's current model.
+
+
+# Illustrative Recommendation Analysis
+
+The previous sections describe what Stitch Fix has publicly shared about its recommendation system. To make the analysis easier to visualize, I created a **small fictional example** of how a clothing recommender could use preference scores and budget limits. **These charts use simulated values that I selected for teaching purposes. They are not Stitch Fix customer data, company statistics, or actual algorithm scores.**
+
+##  A Sample Customer's Clothing Preferences
+
+Suppose a customer rated five clothing categories on a scale from 1 (strongly dislike) to 5 (strongly like). A recommender could use these ratings as one clue about which types of clothing to suggest. This chart shows how an example customer might prefer dresses and blazers over skirts.
+
+```{r}
+# Fictional ratings created for this classroom illustration.
+preferences <- data.frame(
+  category = c("Dresses", "Blazers", "Jeans", "Sneakers", "Skirts"),
+  rating = c(5, 4, 4, 3, 2)
+)
+
+par(mar = c(4.5, 8, 3, 1))
+barplot(
+  preferences$rating,
+  names.arg = preferences$category,
+  horiz = TRUE,
+  las = 1,
+  xlim = c(0, 5.5),
+  col = "#4472A3",
+  border = NA,
+  xlab = "Preference rating (1 = dislike, 5 = like)",
+  main = "Example: Clothing Preferences of One Customer"
+)
+```
+
+*Interpretation:* In this made-up example, dresses received the highest score. However, a customer liking dresses does not mean every dress is a good recommendation. The system would also need to consider fit, price, occasion, and what is available. This helps explain why Stitch Fix combines customer preference data with other information and human stylists.
+
+##  Recommendation Scores Versus Price
+
+A second issue is that a clothing item may match a person's style but still be too expensive. For this illustration, assume a customer sets a maximum price of **$80 per item**. The fictional scores below represent a possible recommendation model's overall match score, on a scale of 0 to 100. They do **not** represent Stitch Fix's actual scoring formula.
+
+```{r}
+# Fictional clothing candidates, prices, and match scores.
+clothing <- data.frame(
+  item = c("Casual Dress", "Work Blazer", "Straight Jeans",
+           "Knit Sweater", "Designer Dress", "Everyday Sneakers"),
+  price = c(65, 78, 60, 45, 120, 55),
+  match_score = c(94, 88, 84, 73, 96, 69)
+)
+
+budget_limit <- 80
+clothing$within_budget <- clothing$price <= budget_limit
+point_colors <- ifelse(clothing$within_budget, "#276B68", "#B45B4B")
+
+par(mar = c(5, 5, 3, 2))
+plot(
+  clothing$price, clothing$match_score,
+  pch = 19, cex = 1.5, col = point_colors,
+  xlim = c(35, 145), ylim = c(60, 105),
+  xlab = "Item price ($)", ylab = "Illustrative match score (0–100)",
+  main = "Example: Good Matches Can Still Exceed a Budget"
+)
+abline(v = budget_limit, lty = 2, col = "#666666", lwd = 2)
+text(clothing$price, clothing$match_score,
+     labels = clothing$item, pos = 3, cex = 0.72, offset = 0.55)
+legend("bottomright",
+       legend = c("Within $80 budget", "Above budget", "$80 limit"),
+       col = c("#276B68", "#B45B4B", "#666666"),
+       pch = c(19, 19, NA), lty = c(NA, NA, 2), bty = "n", cex = 0.8)
+```
+
+*Interpretation:* The fictional Designer Dress has the highest match score but costs $120, which is above the customer's $80 limit. This example supports my recommendation that Stitch Fix should let customers apply clear spending limits to recommendations. A strong recommender should consider whether an item is practical for the customer, not just whether its style matches.
+
+# Recommendations for Improvement
+
+##  Make the reasons behind recommendations clearer
+
+Stitch Fix could display a short explanation with each suggested item, such as "Recommended because you prefer neutral colors and relaxed fits." Customers should also be able to correct that reasoning. This could make recommendations feel less random and give users greater control over their profiles.
+
+##  Offer a temporary occasion mode
+
+Customers can already write stylist notes about upcoming travel or events [10]. I would build on that feature by adding a structured temporary mode for occasions such as "job interview," "beach vacation," or "wedding guest." The system could prioritize appropriate items for that occasion without permanently changing the customer's everyday style profile. This would be more convenient than relying entirely on a written note.
+
+##  Add a total outfit budget
+
+Although customers can share budget preferences, I would add a feature that lets them enter a maximum cost for an entire outfit. For example, a customer could request an outfit for under $150, including shoes and accessories if available. The system would need to recommend items that work together while staying within the total amount.
+
+##  Make negative feedback more specific
+
+Instead of using only a general dislike, Stitch Fix could ask for a quick optional reason: "wrong color," "too expensive," "not my fit," "already own something similar," or "not for this occasion." Fix Preview already supports reasons for declining items [4]; I would extend consistent, structured feedback throughout the recommendation experience. That could help distinguish permanent dislikes from temporary decisions.
+
+##  Measure success beyond immediate purchases
+
+A recommendation should not be considered successful only because a customer buys an item. I would also measure whether customers keep and wear their purchases, whether they feel the fit was right, and whether they return to use the service again. An optional follow-up question a few weeks after purchase could provide better information about long-term satisfaction. Because these are personal data, customers should be informed about what is collected and how it is used.
+
+# Conclusion
+
+After researching Stitch Fix, I think its biggest advantage is that it combines data-driven recommendations with human judgment. The system can learn patterns from customer preferences, while stylists can help make decisions that depend on personal context. This approach is especially useful for clothing because personal style involves more than just liking a product image.
+
+However, I do not think an algorithm can completely understand someone's style without giving that person ways to explain changes, preferences, and situations. My recommendations focus on making the experience more transparent, flexible, and useful. The two fictional charts also show why matching someone's taste is only one part of the problem: the system must consider practical limits such as price. Overall, this assignment helped me see that an effective recommender system is not just about predicting what someone might buy. It is about understanding what the user is trying to accomplish and helping them get there.
+
+# References
+
+1. Stitch Fix. (n.d.). *How the Fix experience works*. <https://support.stitchfix.com/support/solutions/articles/153000250371-how-the-fix-experience-works>
+2. Stitch Fix. (n.d.). *How to shop Stitch Fix Freestyle*. <https://support.stitchfix.com/support/solutions/articles/153000250417-how-to-shop-stitch-fix-freestyle->
+3. Stitch Fix. (n.d.). *Rate your style: Play Style Shuffle*. <https://support.stitchfix.com/support/solutions/articles/153000250424/>
+4. Stitch Fix. (n.d.). *How Fix Preview works*. <https://support.stitchfix.com/support/solutions/articles/153000250381-how-fix-preview-works>
+5. Stitch Fix. (n.d.). *Algorithms Tour*. <https://algorithms-tour.stitchfix.com/>
+6. Stitch Fix. (n.d.). *How to update your sizing and style preferences in your Style Profile*. <https://support.stitchfix.com/support/solutions/articles/153000250484-how-to-update-your-sizing-and-style-preferences-in-your-style-profile>
+7. Stitch Fix. (2022). *10 billion interactions (and counting!) on Style Shuffle: The data powering your personalized shopping experience*. <https://newsroom.stitchfix.com/blog/10-billion-interactions-and-counting-on-style-shuffle-the-data-powering-your-personalized-shopping-experience/>
+8. Stitch Fix. (2025, October 6). *Stitch Fix introduces Stitch Fix Vision, a GenAI-powered style visualization experience*. <https://newsroom.stitchfix.com/blog/stitch-fix-introduces-stitch-fix-vision-a-genai-powered-style-visualization-experience/>
+9. Stitch Fix. (2026, June 24). *Stitch Fix expands Vision AI platform to give clients more control over personalized style discovery*. <https://newsroom.stitchfix.com/blog/stitch-fix-expands-vision-ai-platform-to-give-clients-more-control-over-personalized-style-discovery/>
+10. Stitch Fix. (n.d.). *How to improve your Fix Preview*. <https://support.stitchfix.com/support/solutions/articles/153000250595-how-to-improve-your-fix-preview>
+11. Temkin, B. D. (2004). *Scenario Design: A disciplined approach to customer experience*. Forrester Research. (Framework referenced in DATA 607 assignment instructions.)
